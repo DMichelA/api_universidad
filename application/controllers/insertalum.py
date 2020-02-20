@@ -9,17 +9,18 @@ class Alumnos:
         try:
             datos = web.input()
             if datos ['token'] == "1234":
-                matricula = str(datos['matricula'])
-                nombre = str(datos['nombre'])
-                primer_apellido = str(datos['primer_apellido'])
-                segundo_apellido = str(datos['segundo_apellido'])
-                carrera = str(datos['carrera'])
-                result = [] # crea arreglo (array)
-                result.append(matricula)
-                result.append(nombre)
-                result.append(primer_apellido)
-                result.append(segundo_apellido)
-                result.append(carrera)
+                if datos['action'] == "put":
+                    matricula = str(datos['matricula'])
+                    nombre = str(datos['nombre'])
+                    primer_apellido = str(datos['primer_apellido'])
+                    segundo_apellido = str(datos['segundo_apellido'])
+                    carrera = str(datos['carrera'])
+                    result = [] # crea arreglo (array)
+                    result.append(matricula)
+                    result.append(nombre)
+                    result.append(primer_apellido)
+                    result.append(segundo_apellido)
+                    result.append(carrera)
 
                 with open('static/csv/alumnos.csv', 'a+', newline='') as csvfile:
                     writer =csv.writer(csvfile) # csvfile es una variable_cualquiera
