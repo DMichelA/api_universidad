@@ -17,8 +17,8 @@ class Alumnos:
                     reader = csv.DictReader(csvfile)  # csvfile es una variable_cualquiera
                     for row in reader:
                         result1.append(row)
-                        result2['status'] = "200 Ok"
                         result2['app_version'] = self.app_version
+                        result2['status'] = "200 Ok"
                         result2['alumnos'] = result1
                 return json.dumps(result2)  # Parsea el diccionario a json
 
