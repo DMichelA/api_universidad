@@ -19,6 +19,7 @@ class Alumnos:
                         result1.append(row)
                         result2['status'] = "200 Ok"
                         result2['alumnos'] = result1
+                        result2['app_version'] = self.app_version
                 return json.dumps(result2)  # Parsea el diccionario a json
 
             else:
