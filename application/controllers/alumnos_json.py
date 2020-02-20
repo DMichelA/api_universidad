@@ -5,9 +5,10 @@ import csv
 
 
 class Alumnos:
-
+    app_version = "0.01"  # version de la webapp
     def GET(self):
         try:
+            
             datos = web.input()
             if datos['action'] == 'get' and datos['token'] == "1234":
                 result1 = []
