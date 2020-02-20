@@ -11,3 +11,6 @@ Los datos son formateados a JSON
 
 * get - obtener todos los registros
 * put - insertar un nuevo registro
+* delele - Borra un registro
+* buscar - Busca un registro
+* actualización - Actualiza un registro
