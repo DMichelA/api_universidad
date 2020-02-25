@@ -2,8 +2,6 @@ import web  # pip install web.py
 
 urls = (  # Indica que son tuplas, que tienen dos valores
     '/alumnos/?', 'application.controllers.alumnos.Alumnos',
-    '/alumnos_json/?', 'application.controllers.alumnos_json.Alumnos',
-    '/alumnos_inse/?', 'application.controllers.insertalum.Alumnos'
 )
 app = web.application(urls, globals())  # Configura como una aplicacion
 

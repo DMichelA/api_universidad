@@ -3,7 +3,14 @@ import app
 import csv # csv import
 import json # json import
 
+'''
+    Controller Alumnos que es invocado cuando el usuario ingrese a la 
+    URL: http://localhost:8080/alumnos?action=put&matricula=xx&nombre=xx&&primer_apellido=xx&segundo_apellido=xx&carrera=xxx&token=1234
+'''
+
+
 class Alumnos:
+
 
     def GET(self):
         try:

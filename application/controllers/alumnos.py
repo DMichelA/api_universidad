@@ -5,12 +5,18 @@ import json  # json parser
 '''
     Controller Alumnos que es invocado cuando el usuario ingrese a la 
     URL: http://localhost:8080/alumnos?action=get&token=1234
+
+    Controller Alumnos que es invocado cuando el usuario ingrese a la 
+    URL: http://localhost:8080/alumnos?action=searh&token=1234&matricula=xxx
+
+    Controller Alumnos que es invocado cuando el usuario ingrese a la 
+    URL: http://localhost:8080/alumnos?action=put&matricula=xx&nombre=xx&&primer_apellido=xx&segundo_apellido=xx&carrera=xxx&token=1234
 '''
 
 
 class Alumnos:
 
-    app_version = "0.01"  # version de la webapp
+    app_version = "0.1.0"  # version de la webapp
     file = 'static/csv/alumnos.csv'  # define el archivo donde se almacenan los datos
 
     def __init__(self):  # Método inicial o constructor de la clase
@@ -23,6 +29,10 @@ class Alumnos:
                 if data['action'] == 'get':  # evalua la acción a realizar
                     result = self.actionGet(self.app_version, self.file)  # llama al metodo actionGet(), y almacena el resultado
                     return json.dumps(result)  # Parsea el diccionario result a formato json
+                elif data['action'] == 'search':
+                    matricula=data['matricula']
+                    result = self.actionSearch(self.app_version, self.file,matricula)
+                    return json.dumps(result)
                 else:
                     result = {}  # crear diccionario vacio
                     result['app_version'] = self.app_version  # version de la webapp
@@ -60,6 +70,32 @@ class Alumnos:
                     alumnos.append(fila)  # agrega el diccionario generado al array alumnos
                 result['alumnos'] = alumnos  # agrega el array alumnos al diccionario result
             return result  # Regresa el diccionario generado
+        except Exception as e:
+            result = {}  # crear diccionario vacio
+            print("Error {}".format(e.args))
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "Error "  # mensaje de status
+            return result  # Regresa el diccionario generado
+
+    @staticmethod
+    def actionSearch(app_version, file,matricula):
+        try:
+            result = {}  # crear diccionario vacio
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "200 ok"  # mensaje de status
+
+            with open(file, 'r') as csvfile:
+                reader = csv.DictReader(csvfile) # csvfile es una variable_cualquiera
+                alumnos = []
+                for row in reader:
+                    if (row['matricula'] == matricula):
+                        result['alumnos'] = row
+                    else:
+                        result['alumnos'] = "Field not found"
+            return result
+
+               
+            
         except Exception as e:
             result = {}  # crear diccionario vacio
             print("Error {}".format(e.args))
