@@ -16,7 +16,7 @@ import json  # json parser
 
 class Alumnos:
 
-    app_version = "0.1.0"  # version de la webapp
+    app_version = "0.3.0"  # version de la webapp
     file = 'static/csv/alumnos.csv'  # define el archivo donde se almacenan los datos
 
     def __init__(self):  # Método inicial o constructor de la clase
@@ -33,6 +33,14 @@ class Alumnos:
                     matricula=data['matricula']
                     result = self.actionSearch(self.app_version, self.file,matricula)
                     return json.dumps(result)
+                elif data['action'] == 'put':
+                    matricula=data['matricula']
+                    nombre=data['nombre']
+                    primer_apellido=data['primer_apellido']
+                    segundo_apellido=data['segundo_apellido']
+                    carrera=data['carrera']
+                    result = self.actionPut(self.app_version, self.file,matricula,nombre,primer_apellido,segundo_apellido,carrera)
+
                 else:
                     result = {}  # crear diccionario vacio
                     result['app_version'] = self.app_version  # version de la webapp
@@ -94,8 +102,41 @@ class Alumnos:
                         result['alumnos'] = "Field not found"
             return result
 
-               
-            
+        except Exception as e:
+            result = {}  # crear diccionario vacio
+            print("Error {}".format(e.args))
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "Error "  # mensaje de status
+            return result  # Regresa el diccionario generado
+
+    @staticmethod
+    def actionPut(app_version, file, matricula, nombre, primer_apellido, segundo_apellido, carrera):
+        try:
+            result = {}  # crear diccionario vacio
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "200 ok"  # mensaje de status
+
+            result = [] # crea arreglo (array)
+            result.append(matricula)
+            result.append(nombre)
+            result.append(primer_apellido)
+            result.append(segundo_apellido)
+            result.append(carrera)
+
+            with open(file, 'a+', newline='') as csvfile:
+                writer =csv.writer(csvfile) # csvfile es una variable_cualquiera
+                writer.writerow(result)
+
+            result = "matricula,nombre,primer_apellido,segundo_apellido,carrera\n"
+
+            with open(file, 'r') as csvfile:
+                reader = csv.DictReader(csvfile) # csvfile es una variable_cualquiera
+                for row in reader:
+                    print(row)
+                    fila = str(row['matricula']) + "," + str(row['nombre']) + "," + str(row['primer_apellido']) + "," + str(row['segundo_apellido']) + "," + str(row['carrera'])
+                    result+=fila +"\n"
+            return result
+
         except Exception as e:
             result = {}  # crear diccionario vacio
             print("Error {}".format(e.args))
