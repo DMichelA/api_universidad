@@ -98,8 +98,6 @@ class Alumnos:
                 for row in reader:
                     if (row['matricula'] == matricula):
                         result['alumnos'] = row
-                    else:
-                        result['alumnos'] = "Field not found"
             return result
 
         except Exception as e:
