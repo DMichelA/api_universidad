@@ -58,19 +58,13 @@ class Alumnos:
                     result = self.actionDelete(self.app_version,self.file, matricula)
                     return json.dumps(result)
                 elif data['action'] == 'update':
-                    matricula = data['matricula']
-                    matricula=int(data['matricula'])
+                    matricula =str(data['matricula'])
                     nombre=str(data['nombre'])
                     primer_apellido=str(data['primer_apellido'])
                     segundo_apellido=str(data['segundo_apellido'])
                     carrera=str(data['carrera'])
-                    alumno = [] # crea arreglo (array)
-                    alumno.append(matricula)
-                    alumno.append(nombre)
-                    alumno.append(primer_apellido)
-                    alumno.append(segundo_apellido)
-                    alumno.append(carrera)
-                    #result = self.actionUpdate(self.app_version, self.file, matricula)
+                    result = self.actionUpdate(self.app_version, self.file,matricula,nombre,primer_apellido,segundo_apellido,carrera)
+                    return json.dumps(result)
 
                 else:
                     result = {}  # crear diccionario vacio
@@ -210,6 +204,61 @@ class Alumnos:
                     data.append(alumnos[i]['carrera'])
                     writer.writerow(data)
                     data=[]
+
+            with open(file,'r') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    alumnos.append(row)
+                    result['alumnos']=alumnos
+            return result
+
+        except Exception as e:
+            result = {}  # crear diccionario vacio
+            print("Error {}".format(e.args))
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "Error "  # mensaje de status
+            return result  # Regresa el diccionario generado
+
+    @staticmethod
+    def actionUpdate(app_version, file, matricula, nombre, primer_apellido, segundo_apellido, carrera):
+        try:
+            result = {}  # crear diccionario vacio
+            result['app_version'] = app_version  # version de la webapp
+            result['status'] = "200 ok"
+
+            with open(file, 'r') as csvfile:
+                reader = csv.DictReader(csvfile)
+                alumnos = []
+                for row in reader:
+                    if (row['matricula'] != matricula):
+                        alumnos.append(row)
+                        result['alumnos'] = row
+            tam = (len(alumnos))
+            with open(file,'w',newline='') as csvfile:
+                writer=csv.writer(csvfile)
+                fila=[]
+                fila.append("matricula")
+                fila.append("nombre")
+                fila.append("primer_apellido")
+                fila.append("segundo_apellido")
+                fila.append("carrera")
+                writer.writerow(fila)
+                data=[]
+                for i in range(0,tam):
+                    data.append(alumnos[i]['matricula'])
+                    data.append(alumnos[i]['nombre'])
+                    data.append(alumnos[i]['primer_apellido'])
+                    data.append(alumnos[i]['segundo_apellido'])
+                    data.append(alumnos[i]['carrera'])
+                    writer.writerow(data)
+                    data=[]
+                save=[]
+                save.append(matricula)
+                save.append(nombre)
+                save.append(primer_apellido)
+                save.append(segundo_apellido)
+                save.append(carrera)
+                writer.writerow(save)
 
             with open(file,'r') as csvfile:
                 reader = csv.DictReader(csvfile)
