@@ -51,14 +51,26 @@ class Alumnos:
                     alumno.append(primer_apellido)
                     alumno.append(segundo_apellido)
                     alumno.append(carrera)
-                    result = self.actionPut(self.app_version, self.file, matricula)
+                    result = self.actionPut(self.app_version, self.file, alumno)
                     return json.dumps(result)
                 elif data['action'] == 'delete':
                     matricula = data['matricula']
                     result = self.actionDelete(self.app_version,self.file, matricula)
                     return json.dumps(result)
-                #elif data['action'] == 'update':
-
+                elif data['action'] == 'update':
+                    matricula = data['matricula']
+                    matricula=int(data['matricula'])
+                    nombre=str(data['nombre'])
+                    primer_apellido=str(data['primer_apellido'])
+                    segundo_apellido=str(data['segundo_apellido'])
+                    carrera=str(data['carrera'])
+                    alumno = [] # crea arreglo (array)
+                    alumno.append(matricula)
+                    alumno.append(nombre)
+                    alumno.append(primer_apellido)
+                    alumno.append(segundo_apellido)
+                    alumno.append(carrera)
+                    #result = self.actionUpdate(self.app_version, self.file, matricula)
 
                 else:
                     result = {}  # crear diccionario vacio
