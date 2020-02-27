@@ -13,13 +13,16 @@ import json  # json parser
     URL: http://localhost:8080/alumnos?action=put&matricula=xx&nombre=xx&&primer_apellido=xx&segundo_apellido=xx&carrera=xxx&token=1234
 
     Controller Alumnos que es invocado cuando el usuario ingrese a la 
-    URL: http://localhost:8080/alumnos?action=delete&token=1234&matricula=xxx  
+    URL: http://localhost:8080/alumnos?action=delete&token=1234&matricula=xxx
+
+    Controller Alumnos que es invocado cuando el usuario ingrese a la 
+    URL: http://localhost:8080/alumnos?action=update&token=1234&matricula=xxx
 '''
 
 
 class Alumnos:
 
-    app_version = "0.4.0"  # version de la webapp
+    app_version = "0.5.0"  # version de la webapp
     file = 'static/csv/alumnos.csv'  # define el archivo donde se almacenan los data
 
     def __init__(self):  # Método inicial o constructor de la clase
@@ -51,9 +54,11 @@ class Alumnos:
                     result = self.actionPut(self.app_version, self.file, matricula)
                     return json.dumps(result)
                 elif data['action'] == 'delete':
-                    matricula=data['matricula']
+                    matricula = data['matricula']
                     result = self.actionDelete(self.app_version,self.file, matricula)
                     return json.dumps(result)
+                #elif data['action'] == 'update':
+
 
                 else:
                     result = {}  # crear diccionario vacio
@@ -68,6 +73,7 @@ class Alumnos:
         except Exception as e:
             print("Error")
             result = {}  # crear diccionario vacio
+            print("Error {}".format(e.args))
             result['app_version'] = self.app_version  # version de la webapp
             result['status'] = "Values missing, sintaxis: alumnos?action=get&token=XXXX"
             return json.dumps(result)  # Parsea el diccionario result a formato json
