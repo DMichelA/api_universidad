@@ -65,6 +65,9 @@ class Alumnos:
                     carrera=str(data['carrera'])
                     result = self.actionUpdate(self.app_version, self.file,matricula,nombre,primer_apellido,segundo_apellido,carrera)
                     return json.dumps(result)
+                elif data['action']=='help':
+                    result=self.actionHelp(self.app_version,self.file)
+                    return json.dumps(result)
 
                 else:
                     result = {}  # crear diccionario vacio
@@ -273,3 +276,15 @@ class Alumnos:
             result['app_version'] = app_version  # version de la webapp
             result['status'] = "Error "  # mensaje de status
             return result  # Regresa el diccionario generado
+
+    @staticmethod
+    def actionHelp(app_version, file):
+        result = {}  # crear diccionario vacio
+        result['app_version'] = app_version  # version de la webapp
+        result['status'] = "200 ok"
+        result['Get'] = "Escribe en la URL ?token=xxxx&action=get"
+        result['Search'] = "Escribe en la URL ?token=xxxx&action=search&matricula=xxxxxxxxxx"
+        result['Put'] = "Escribe en la URL ?token=xxxx&action=put&matricula='xxxxxxxxxx'&nombre=''&apellido_paterno=''&apellido_materno=''&carrera=''"
+        result['Delete'] = "Escribe en la URL ?token=xxxx&action=delete&matricula='xxxxxxxxxx'"
+        result['Update'] = "Escribe en la URL ?token=xxxx&action=update&matricula=xxxxxxxxxx&nombre=''&apellido_paterno=''&apellido_materno=''&carrera=''"
+        return result
